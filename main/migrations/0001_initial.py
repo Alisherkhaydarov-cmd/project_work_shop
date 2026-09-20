@@ -1,0 +1,11 @@
+from django.db import migrations, models
+import django.db.models.deletion
+
+class Migration(migrations.Migration):
+    initial = True
+    dependencies = [('auth', '0012_alter_user_first_name_max_length')]
+    operations = [
+        migrations.CreateModel(name='Category', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('name', models.CharField(max_length=100, unique=True, verbose_name='Название')), ('image', models.ImageField(blank=True, null=True, upload_to='categories/', verbose_name='Изображение'))], options={'verbose_name':'Категория','verbose_name_plural':'Категории','ordering':['name']}),
+        migrations.CreateModel(name='Product', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('name', models.CharField(max_length=150, verbose_name='Название')), ('description', models.TextField(verbose_name='Описание')), ('price', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена')), ('quantity', models.PositiveIntegerField(default=10, verbose_name='Количество')), ('image', models.ImageField(blank=True, null=True, upload_to='products/', verbose_name='Изображение')), ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')), ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='main.category', verbose_name='Категория'))], options={'verbose_name':'Товар','verbose_name_plural':'Товары','ordering':['-created_at']}),
+        migrations.CreateModel(name='Review', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('text', models.TextField(verbose_name='Отзыв')), ('rating', models.PositiveSmallIntegerField(choices=[(1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5')], default=5, verbose_name='Оценка')), ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата')), ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='main.product', verbose_name='Товар')), ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='auth.user', verbose_name='Пользователь'))], options={'verbose_name':'Отзыв','verbose_name_plural':'Отзывы','ordering':['-created_at']}),
+    ]

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Моё Избранное</h2>
+    {% if favorites %}
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {% for item in favorites %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span>Нет изображения</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text text-danger fw-bold">{{ item.product.price }} руб.</p>
+                            <div class="d-grid gap-2">
+                                <a href="{{ item.product.get_absolute_url }}" class="btn btn-outline-dark btn-sm">Перейти к товару</a>
+                                <a href="{% url 'toggle_favorite' item.product.id %}" class="btn btn-danger btn-sm">Удалить из избранного</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-secondary" role="alert">
+            В списке избранного пока ничего нет.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

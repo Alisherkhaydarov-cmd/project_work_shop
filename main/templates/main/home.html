@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Интернет-магазин</h1>
+    <p>Каталог товаров, корзина, избранное и отзывы.</p>
+    <a class="btn" href="{% url 'product_list' %}">Перейти в каталог</a>
+</section>
+<h2>Категории</h2>
+<div class="grid categories">
+    {% for category in categories %}
+    <a class="card" href="{% url 'products_by_category' category.id %}">
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.products.count }} товаров</p>
+    </a>{% empty %}<p>Категорий пока нет.</p>
+    {% endfor %}
+</div>
+<h2>Новые товары</h2>
+<div class="grid">
+    {% for product in products %}
+    <article class="product">
+        <a href="{{ product.get_absolute_url }}">{% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <div class="placeholder">Нет фото</div>
+            {% endif %}<h3>{{ product.name }}</h3>
+            <p>{{ product.price }} сум</p></a>
+    </article>{% endfor %}</div>
+{% endblock %}

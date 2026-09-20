@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Оформление заказа{% endblock %}
+{% block content %}<h1>Оформление заказа</h1><div class="form"><form method="post">{% csrf_token %}{{ form.as_p }}<p>Сумма заказа: <b>{{ cart.total_price }} сум</b></p><button class="btn">Подтвердить заказ</button></form></div>{% endblock %}

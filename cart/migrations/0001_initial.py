@@ -1,0 +1,12 @@
+from django.db import migrations, models
+import django.db.models.deletion
+
+class Migration(migrations.Migration):
+    initial = True
+    dependencies = [('auth','0012_alter_user_first_name_max_length'), ('main','0001_initial')]
+    operations = [
+        migrations.CreateModel(name='Cart', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('created_at', models.DateTimeField(auto_now_add=True)), ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='cart', to='auth.user'))]),
+        migrations.CreateModel(name='Order', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('name', models.CharField(max_length=100, verbose_name='Имя получателя')), ('phone', models.CharField(max_length=30, verbose_name='Телефон')), ('address', models.CharField(max_length=255, verbose_name='Адрес')), ('status', models.CharField(choices=[('new','Новый'),('processing','В обработке'),('done','Выполнен'),('cancelled','Отменён')], default='new', max_length=20, verbose_name='Статус')), ('total', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Сумма')), ('created_at', models.DateTimeField(auto_now_add=True)), ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to='auth.user'))], options={'verbose_name':'Заказ','verbose_name_plural':'Заказы','ordering':['-created_at']}),
+        migrations.CreateModel(name='CartItem', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('quantity', models.PositiveIntegerField(default=1)), ('cart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='cart.cart')), ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product'))], options={'unique_together':{('cart','product')}}),
+        migrations.CreateModel(name='OrderItem', fields=[('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), ('quantity', models.PositiveIntegerField()), ('price', models.DecimalField(decimal_places=2, max_digits=10)), ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='cart.order')), ('product', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='main.product'))]),
+    ]

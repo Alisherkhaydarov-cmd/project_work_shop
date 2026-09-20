@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Заказ оформлен{% endblock %}
+{% block content %}<div class="hero"><h1>Заказ №{{ order.id }} оформлен</h1><p>Спасибо за покупку. Статус: {{ order.get_status_display }}.</p><a class="btn" href="{% url 'product_list' %}">Вернуться в каталог</a></div>{% endblock %}

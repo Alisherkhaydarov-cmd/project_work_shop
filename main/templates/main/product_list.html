@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+<h1>Каталог</h1>
+<form class="search" method="get"><input name="q" value="{{ query }}" placeholder="Поиск по названию"><button class="btn">Найти</button></form>
+<div class="chips"><a href="{% url 'product_list' %}">Все</a>{% for c in categories %}<a href="{% url 'products_by_category' c.id %}">{{ c.name }}</a>{% endfor %}</div>
+<div class="grid">{% for product in products %}<article class="product"><a href="{{ product.get_absolute_url }}">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% else %}<div class="placeholder">Нет фото</div>{% endif %}<h3>{{ product.name }}</h3><p>{{ product.price }} сум</p></a></article>{% empty %}<p>Товары не найдены.</p>{% endfor %}</div>
+{% endblock %}

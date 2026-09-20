@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<div class="detail">
+<div>{% if product.image %}<img class="detail-img" src="{{ product.image.url }}" alt="{{ product.name }}">{% else %}<div class="placeholder big">Нет фото</div>{% endif %}</div>
+<div><h1>{{ product.name }}</h1><p class="price">{{ product.price }} сум</p><p>{{ product.description }}</p><p>На складе: {{ product.quantity }}</p>
+{% if user.is_authenticated %}<form method="post" action="{% url 'add_to_cart' product.id %}">{% csrf_token %}<button class="btn">Добавить в корзину</button></form><a class="btn secondary" href="{% url 'toggle_favorite' product.id %}">Добавить/убрать из избранного</a>{% else %}<p><a href="{% url 'login' %}">Войдите</a>, чтобы покупать и добавлять товары в избранное.</p>{% endif %}</div></div>
+<section><h2>Отзывы</h2>{% for review in reviews %}<div class="review"><b>{{ review.user.username }}</b> — {{ review.rating }}/5 <small>{{ review.created_at|date:'d.m.Y H:i' }}</small><p>{{ review.text }}</p></div>{% empty %}<p>Отзывов пока нет.</p>{% endfor %}</section>
+{% if user.is_authenticated %}<section><h3>Оставить отзыв</h3><form method="post" class="form">{% csrf_token %}{{ form.as_p }}<button class="btn">Отправить</button></form></section>{% endif %}
+{% endblock %}
